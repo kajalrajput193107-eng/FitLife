@@ -1,3 +1,4 @@
+
 package com.fitlife.dao;
 
 import java.sql.Connection;
@@ -5,8 +6,14 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    private static final String URL =
-            "jdbc:mysql://localhost:3306/fitness_db";
+    private static final String HOST =
+            System.getenv("FITLIFE_DB_HOST");
+
+    private static final String PORT =
+            System.getenv("FITLIFE_DB_PORT");
+
+    private static final String DATABASE =
+            System.getenv("FITLIFE_DB_NAME");
 
     private static final String USER =
             System.getenv("FITLIFE_DB_USER");
@@ -17,19 +24,21 @@ public class DBConnection {
     public static Connection getConnection() {
 
         try {
-
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            if (USER == null || PASSWORD == null) {
+            if (HOST == null || PORT == null || DATABASE == null
+                    || USER == null || PASSWORD == null) {
                 throw new RuntimeException(
-                    "Database environment variables are not configured."
+                    "Database environment variables are missing."
                 );
             }
 
+            String url = "jdbc:mysql://" + HOST + ":" + PORT
+                    + "/" + DATABASE
+                    + "?sslMode=REQUIRED";
+
             Connection con = DriverManager.getConnection(
-                    URL,
-                    USER,
-                    PASSWORD
+                    url, USER, PASSWORD
             );
 
             System.out.println("Database Connected Successfully!");
@@ -37,10 +46,8 @@ public class DBConnection {
             return con;
 
         } catch (Exception e) {
-
             System.out.println("Database Connection Failed!");
             e.printStackTrace();
-
             throw new RuntimeException(e);
         }
     }
