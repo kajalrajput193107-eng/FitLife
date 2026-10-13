@@ -124,7 +124,7 @@
 <body>
 
     <div class="navbar">
-        <div class="logo">FitLife</div>
+        <div class="logo">VegivaFit</div>
         <a href="${pageContext.request.contextPath}/LogoutServlet" class="logout">Logout</a>
     </div>
 

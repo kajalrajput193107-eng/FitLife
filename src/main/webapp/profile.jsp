@@ -36,7 +36,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife - My Profile</title>
+    <title>VegivaFit - My Profile</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -179,7 +179,7 @@
 
 <body>
     <div class="navbar">
-        <div class="logo">FitLife</div>
+        <div class="logo">VegivaFit</div>
         <div>
             <a href="<%= request.getContextPath() %>/dashboard.jsp">Dashboard</a>
             <a href="<%= request.getContextPath() %>/LogoutServlet">Logout</a>

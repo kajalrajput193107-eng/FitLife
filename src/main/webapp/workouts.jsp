@@ -16,7 +16,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>FitLife - Workouts</title>
+    <title>VegivaFit - Workouts</title>
 
     <style>
 
