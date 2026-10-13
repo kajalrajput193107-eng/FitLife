@@ -1,6 +1,7 @@
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-<%@ page import="com.fitlife.model.Workout" %>
+<%@ page import="java.util.List"%>
+<%@ page import="com.fitlife.model.Workout"%>
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     response.setHeader("Pragma", "no-cache");
@@ -14,12 +15,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitLife - Recommended Workouts</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -63,7 +63,7 @@
 
         .heading {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .heading h1 {
@@ -82,9 +82,61 @@
             font-weight: bold;
         }
 
+        /* Search and filters */
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            background: #1f2937;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #22c55e;
+        }
+
+        .filters select option {
+            background: #1f2937;
+            color: white;
+        }
+
+        .clear-filters {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #22c55e;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .clear-filters:hover {
+            background: #16a34a;
+        }
+
+        .result-count {
+            color: #d1d5db;
+            margin: 0 0 20px;
+            font-size: 14px;
+        }
+
         .workout-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 25px;
         }
 
@@ -92,7 +144,8 @@
             background: #1f2937;
             padding: 25px;
             border-radius: 12px;
-            transition: 0.3s;
+            transition: transform 0.3s;
+            min-width: 0;
         }
 
         .workout-card:hover {
@@ -102,6 +155,7 @@
         .workout-card h2 {
             color: #22c55e;
             margin-top: 0;
+            overflow-wrap: anywhere;
         }
 
         .category,
@@ -111,6 +165,7 @@
             border-radius: 20px;
             font-size: 13px;
             margin-right: 5px;
+            margin-bottom: 5px;
         }
 
         .category {
@@ -144,6 +199,7 @@
         .instructions {
             color: #d1d5db;
             line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .no-workout {
@@ -151,11 +207,17 @@
             background: #1f2937;
             padding: 30px;
             border-radius: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .no-workout h2 {
+            color: #22c55e;
         }
 
         .back {
             display: block;
             width: 200px;
+            max-width: 100%;
             margin: 40px auto;
             text-align: center;
             background: #22c55e;
@@ -170,33 +232,49 @@
         }
 
         @media (max-width: 900px) {
-
             .workout-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 600px) {
-
             .workout-grid {
                 grid-template-columns: 1fr;
             }
 
             .navbar {
                 padding: 15px;
+                gap: 12px;
+                flex-wrap: wrap;
             }
 
+            .navbar a {
+                margin-left: 10px;
+            }
+
+            .heading h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
         }
-
     </style>
-
 </head>
 
 <body>
 
 <div class="navbar">
-
     <div class="logo">FitLife</div>
 
     <div>
@@ -204,128 +282,181 @@
         <a href="WorkoutServlet">All Workouts</a>
         <a href="LogoutServlet">Logout</a>
     </div>
-
 </div>
-
 
 <div class="container">
 
     <div class="heading">
-
-        <h1>🎯 Recommended Workouts</h1>
+        <h1>&#127919; Recommended Workouts</h1>
 
         <p>
             Workouts selected according to your fitness goal:
-            <span class="goal">
-                <%= session.getAttribute("userGoal") %>
-            </span>
+            <span class="goal"><%= session.getAttribute("userGoal") %></span>
         </p>
-
     </div>
 
+    <%
+        List<Workout> workouts =
+            (List<Workout>) request.getAttribute("recommendedWorkouts");
+    %>
 
-    <div class="workout-grid">
+    <% if (workouts != null && !workouts.isEmpty()) { %>
 
-        <%
-            List<Workout> workouts =
-                (List<Workout>) request.getAttribute("recommendedWorkouts");
+        <div class="filters">
+            <input
+                type="search"
+                id="workoutSearch"
+                placeholder="Search exercises..."
+                aria-label="Search exercises">
 
-            if (workouts != null && !workouts.isEmpty()) {
+            <select id="categoryFilter" aria-label="Filter by category">
+                <option value="">All Categories</option>
+            </select>
 
-                for (Workout workout : workouts) {
-        %>
+            <select id="difficultyFilter" aria-label="Filter by difficulty">
+                <option value="">All Difficulties</option>
+            </select>
 
-        <div class="workout-card">
+            <button type="button" class="clear-filters" id="clearFilters">
+                Clear Filters
+            </button>
+        </div>
 
-            <h2>
-                <%= workout.getExerciseName() %>
-            </h2>
+        <p class="result-count" id="resultCount" aria-live="polite"></p>
 
-            <span class="category">
-                <%= workout.getCategory() %>
-            </span>
+        <div class="workout-grid" id="workoutGrid">
 
-            <span class="difficulty">
-                <%= workout.getDifficulty() %>
-            </span>
+            <% for (Workout workout : workouts) { %>
 
+                <div class="workout-card"
+                     data-name="<%= workout.getExerciseName() == null ? "" : workout.getExerciseName().replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;") %>"
+                     data-category="<%= workout.getCategory() == null ? "" : workout.getCategory().replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;") %>"
+                     data-difficulty="<%= workout.getDifficulty() == null ? "" : workout.getDifficulty().replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;") %>">
 
-            <div class="details">
+                    <h2><%= workout.getExerciseName() %></h2>
 
-                <div class="detail-box">
+                    <span class="category"><%= workout.getCategory() %></span>
+                    <span class="difficulty"><%= workout.getDifficulty() %></span>
 
-                    <strong>Sets</strong>
+                    <div class="details">
+                        <div class="detail-box">
+                            <strong>Sets</strong>
+                            <br>
+                            <%= workout.getSets() %>
+                        </div>
 
-                    <br>
+                        <div class="detail-box">
+                            <strong>Reps / Time</strong>
+                            <br>
+                            <% if (workout.getRepetitions() == 0) { %>
+                                30-60 sec
+                            <% } else { %>
+                                <%= workout.getRepetitions() %>
+                            <% } %>
+                        </div>
+                    </div>
 
-                    <%= workout.getSets() %>
+                    <h3>How to Perform</h3>
+
+                    <p class="instructions"><%= workout.getInstructions() %></p>
 
                 </div>
 
+            <% } %>
 
-                <div class="detail-box">
-
-                    <strong>Reps</strong>
-
-                    <br>
-
-                    <%
-                        if (workout.getRepetitions() == 0) {
-                    %>
-
-                        30-60 sec
-
-                    <%
-                        } else {
-                    %>
-
-                        <%= workout.getRepetitions() %>
-
-                    <%
-                        }
-                    %>
-
-                </div>
-
+            <div class="no-workout" id="noResults" style="display:none;">
+                <h2>No Matching Workouts Found</h2>
+                <p>Try a different search term or clear your filters.</p>
             </div>
 
-
-            <h3>How to Perform</h3>
-
-            <p class="instructions">
-                <%= workout.getInstructions() %>
-            </p>
-
         </div>
 
-        <%
-                }
-
-            } else {
-        %>
+    <% } else { %>
 
         <div class="no-workout">
-
             <h2>No Recommended Workouts Found</h2>
-
-            <p>
-                We couldn't find workouts for your current fitness goal.
-            </p>
-
+            <p>We couldn't find workouts for your current fitness goal.</p>
         </div>
 
-        <%
-            }
-        %>
+    <% } %>
 
-    </div>
-
-
-    <a href="dashboard.jsp" class="back">
-        ← Back to Dashboard
-    </a>
+    <a href="dashboard.jsp" class="back">&larr; Back to Dashboard</a>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const search = document.getElementById("workoutSearch");
+    const category = document.getElementById("categoryFilter");
+    const difficulty = document.getElementById("difficultyFilter");
+    const clear = document.getElementById("clearFilters");
+    const grid = document.getElementById("workoutGrid");
+    const count = document.getElementById("resultCount");
+    const noResults = document.getElementById("noResults");
+
+    if (!search || !category || !difficulty || !clear || !grid) {
+        return;
+    }
+
+    const cards = Array.from(grid.querySelectorAll(".workout-card"));
+
+    function populateFilter(select, attribute) {
+        const values = [...new Set(
+            cards.map(card => (card.dataset[attribute] || "").trim())
+                .filter(Boolean)
+        )].sort((a, b) => a.localeCompare(b));
+
+        values.forEach(function (value) {
+            const option = document.createElement("option");
+            option.value = value.toLowerCase();
+            option.textContent = value;
+            select.appendChild(option);
+        });
+    }
+
+    populateFilter(category, "category");
+    populateFilter(difficulty, "difficulty");
+
+    function filterWorkouts() {
+        const query = search.value.trim().toLowerCase();
+        let visible = 0;
+
+        cards.forEach(function (card) {
+            const name = (card.dataset.name || "").toLowerCase();
+            const cat = (card.dataset.category || "").trim().toLowerCase();
+            const level = (card.dataset.difficulty || "").trim().toLowerCase();
+
+            const matches =
+                name.includes(query) &&
+                (!category.value || cat === category.value) &&
+                (!difficulty.value || level === difficulty.value);
+
+            card.style.display = matches ? "" : "none";
+
+            if (matches) {
+                visible++;
+            }
+        });
+
+        count.textContent = "Showing " + visible + " of " + cards.length + " workouts";
+        noResults.style.display = visible === 0 ? "block" : "none";
+    }
+
+    search.addEventListener("input", filterWorkouts);
+    category.addEventListener("change", filterWorkouts);
+    difficulty.addEventListener("change", filterWorkouts);
+
+    clear.addEventListener("click", function () {
+        search.value = "";
+        category.value = "";
+        difficulty.value = "";
+        filterWorkouts();
+        search.focus();
+    });
+
+    filterWorkouts();
+});
+</script>
 
 </body>
 </html>
