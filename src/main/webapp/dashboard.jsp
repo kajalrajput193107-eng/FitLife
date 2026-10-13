@@ -6,20 +6,19 @@
     response.setDateHeader("Expires", 0);
 
     if (session.getAttribute("userId") == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
     }
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitLife - Dashboard</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -69,7 +68,6 @@
             width: 90%;
             max-width: 1100px;
             margin: 30px auto 60px;
-
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 25px;
@@ -83,18 +81,14 @@
             transition: 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+        .card:hover { transform: translateY(-5px); }
 
         .icon {
             font-size: 45px;
             margin-bottom: 15px;
         }
 
-        .card h2 {
-            color: #22c55e;
-        }
+        .card h2 { color: #22c55e; }
 
         .card p {
             color: #d1d5db;
@@ -111,9 +105,7 @@
             border-radius: 6px;
         }
 
-        .btn:hover {
-            background: #16a34a;
-        }
+        .btn:hover { background: #16a34a; }
 
         footer {
             text-align: center;
@@ -123,9 +115,8 @@
         }
 
         @media (max-width: 800px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
+            .dashboard { grid-template-columns: 1fr; }
+            .navbar { padding: 18px 20px; }
         }
     </style>
 </head>
@@ -134,24 +125,19 @@
 
     <div class="navbar">
         <div class="logo">FitLife</div>
-
-        <a href="LogoutServlet" class="logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/LogoutServlet" class="logout">Logout</a>
     </div>
-
 
     <div class="welcome">
         <h1>
-    Welcome, <%= session.getAttribute("userName") %>! <span>&#x1F4AA;</span>
-</h1>
-
-<p>
-    Your fitness goal:
-    <strong>
-        <%= session.getAttribute("userGoal") %>
-    </strong>
-</p>
+            Welcome, <%= session.getAttribute("userName") %>!
+            <span>&#x1F4AA;</span>
+        </h1>
+        <p>
+            Your fitness goal:
+            <strong><%= session.getAttribute("userGoal") %></strong>
+        </p>
     </div>
-
 
     <div class="dashboard">
 
@@ -159,41 +145,29 @@
             <div class="icon">&#127947;</div>
             <h2>Workouts</h2>
             <p>Explore exercises and create your workout routine.</p>
-            <a href="WorkoutServlet" class="btn">View Workouts</a>
+            <a href="${pageContext.request.contextPath}/WorkoutServlet" class="btn">View Workouts</a>
         </div>
+
         <div class="card">
-
-    <div class="icon">&#127919;</div>
-
-    <h2>Recommended Workouts</h2>
-
-    <p>
-        Get workout recommendations based on your fitness goal.
-    </p>
-
-    <a href="RecommendedWorkoutServlet" class="btn">
-        View Recommendations
-    </a>
-
-</div>
-
+            <div class="icon">&#127919;</div>
+            <h2>Recommended Workouts</h2>
+            <p>Get workout recommendations based on your fitness goal.</p>
+            <a href="${pageContext.request.contextPath}/RecommendedWorkoutServlet" class="btn">View Recommendations</a>
+        </div>
 
         <div class="card">
             <div class="icon">&#129367;</div>
             <h2>Diet Plans</h2>
             <p>Find healthy diet plans according to your fitness goal.</p>
-            <a href="DietPlanServlet" class="btn">View Diet</a>
+            <a href="${pageContext.request.contextPath}/DietPlanServlet" class="btn">View Diet</a>
         </div>
-
 
         <div class="card">
             <div class="icon">&#9878;&#65039;</div>
             <h2>BMI Calculator</h2>
             <p>Calculate your BMI and understand your fitness level.</p>
-            <a href="${pageContext.request.contextPath}/bmi-calculator.jsp"
-   class="btn">Calculate BMI</a>
+            <a href="${pageContext.request.contextPath}/bmi-calculator.jsp" class="btn">Calculate BMI</a>
         </div>
-
 
         <div class="card">
             <div class="icon">&#128202;</div>
@@ -202,7 +176,6 @@
             <a href="${pageContext.request.contextPath}/ProgressServlet" class="btn">View Progress</a>
         </div>
 
-
         <div class="card">
             <div class="icon">&#128100;</div>
             <h2>My Profile</h2>
@@ -210,26 +183,26 @@
             <a href="${pageContext.request.contextPath}/ProfileServlet" class="btn">My Profile</a>
         </div>
 
-
         <div class="card">
             <div class="icon">&#128293;</div>
             <h2>Fitness Goals</h2>
-            <p>Stay motivated and work towards your fitness goals.</p>
-            <a href="#" class="btn">My Goals</a>
+            <p>Set your target weight, choose a deadline and track your goal.</p>
+            <a href="${pageContext.request.contextPath}/FitnessGoalServlet" class="btn">My Goals</a>
         </div>
 
     </div>
 
-
     <footer>
         &copy; 2026 FitLife | Stay Healthy &bull; Stay Strong
     </footer>
-<script>
-window.addEventListener("pageshow", function(event) {
-    if (event.persisted) {
-        window.location.reload();
-    }
-});
-</script>
+
+    <script>
+        window.addEventListener("pageshow", function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+
 </body>
 </html>
