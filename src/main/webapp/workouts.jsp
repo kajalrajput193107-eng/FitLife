@@ -282,6 +282,15 @@
             <span class="category">
                 <%= workout.getCategory() %>
             </span>
+            
+            <div class="category">
+                Difficulty: <%= workout.getDifficulty() %>
+            </div>
+
+            <div class="category">
+                Goal: <%= workout.getGoal() %>
+            </div>
+
 
 
             <div class="details">
