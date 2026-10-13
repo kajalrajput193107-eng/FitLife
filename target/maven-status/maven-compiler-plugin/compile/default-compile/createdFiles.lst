@@ -1,0 +1,11 @@
+com\fitlife\dao\PasswordUtil.class
+com\fitlife\dao\LoginServlet.class
+com\fitlife\dao\AuthFilter.class
+com\fitlife\model\Workout.class
+com\fitlife\dao\DBConnection.class
+com\fitlife\dao\DietPlanServlet.class
+com\fitlife\dao\WorkoutServlet.class
+com\fitlife\model\DietPlan.class
+com\fitlife\dao\LogoutServlet.class
+com\fitlife\dao\RecommendedWorkoutServlet.class
+com\fitlife\dao\RegisterServlet.class
