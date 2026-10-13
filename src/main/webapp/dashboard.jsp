@@ -141,7 +141,7 @@
 
     <div class="welcome">
         <h1>
-    Welcome, <%= session.getAttribute("userName") %>! ðŸ’ª
+    Welcome, <%= session.getAttribute("userName") %>! <span>&#x1F4AA;</span>
 </h1>
 
 <p>
@@ -222,7 +222,7 @@
 
 
     <footer>
-        Â© 2026 FitLife | Stay Healthy â€¢ Stay Strong
+        &copy; 2026 FitLife | Stay Healthy &bull; Stay Strong
     </footer>
 <script>
 window.addEventListener("pageshow", function(event) {
