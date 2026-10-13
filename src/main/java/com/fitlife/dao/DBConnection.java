@@ -26,10 +26,26 @@ public class DBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            if (HOST == null || PORT == null || DATABASE == null
-                    || USER == null || PASSWORD == null) {
+            StringBuilder missing = new StringBuilder();
+
+            if (HOST == null || HOST.isBlank())
+                missing.append("FITLIFE_DB_HOST ");
+
+            if (PORT == null || PORT.isBlank())
+                missing.append("FITLIFE_DB_PORT ");
+
+            if (DATABASE == null || DATABASE.isBlank())
+                missing.append("FITLIFE_DB_NAME ");
+
+            if (USER == null || USER.isBlank())
+                missing.append("FITLIFE_DB_USER ");
+
+            if (PASSWORD == null || PASSWORD.isBlank())
+                missing.append("FITLIFE_DB_PASSWORD ");
+
+            if (missing.length() > 0) {
                 throw new RuntimeException(
-                    "Database environment variables are missing."
+                    "Missing database variables: " + missing.toString()
                 );
             }
 
@@ -46,8 +62,10 @@ public class DBConnection {
             return con;
 
         } catch (Exception e) {
-            System.out.println("Database Connection Failed!");
+
+            System.err.println("Database Connection Failed!");
             e.printStackTrace();
+
             throw new RuntimeException(e);
         }
     }
