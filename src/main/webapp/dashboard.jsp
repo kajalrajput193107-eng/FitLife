@@ -199,7 +199,7 @@
             <div class="icon">&#128202;</div>
             <h2>Track Progress</h2>
             <p>Track your weight, height and fitness progress.</p>
-            <a href="#" class="btn">View Progress</a>
+            <a href="${pageContext.request.contextPath}/ProgressServlet" class="btn">View Progress</a>
         </div>
 
 
