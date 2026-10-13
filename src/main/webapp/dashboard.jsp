@@ -141,7 +141,7 @@
 
     <div class="welcome">
         <h1>
-    Welcome, <%= session.getAttribute("userName") %>! 💪
+    Welcome, <%= session.getAttribute("userName") %>! ðŸ’ª
 </h1>
 
 <p>
@@ -156,14 +156,14 @@
     <div class="dashboard">
 
         <div class="card">
-            <div class="icon">🏋️</div>
+            <div class="icon">ðŸ‹ï¸</div>
             <h2>Workouts</h2>
             <p>Explore exercises and create your workout routine.</p>
             <a href="WorkoutServlet" class="btn">View Workouts</a>
         </div>
         <div class="card">
 
-    <div class="icon">🎯</div>
+    <div class="icon">ðŸŽ¯</div>
 
     <h2>Recommended Workouts</h2>
 
@@ -179,7 +179,7 @@
 
 
         <div class="card">
-            <div class="icon">🥗</div>
+            <div class="icon">ðŸ¥—</div>
             <h2>Diet Plans</h2>
             <p>Find healthy diet plans according to your fitness goal.</p>
             <a href="DietPlanServlet" class="btn">View Diet</a>
@@ -187,15 +187,16 @@
 
 
         <div class="card">
-            <div class="icon">⚖️</div>
+            <div class="icon">âš–ï¸</div>
             <h2>BMI Calculator</h2>
             <p>Calculate your BMI and understand your fitness level.</p>
-            <a href="#" class="btn">Calculate BMI</a>
+            <a href="${pageContext.request.contextPath}/bmi-calculator.jsp"
+   class="btn">Calculate BMI</a>
         </div>
 
 
         <div class="card">
-            <div class="icon">📊</div>
+            <div class="icon">ðŸ“Š</div>
             <h2>Track Progress</h2>
             <p>Track your weight, height and fitness progress.</p>
             <a href="#" class="btn">View Progress</a>
@@ -203,7 +204,7 @@
 
 
         <div class="card">
-            <div class="icon">👤</div>
+            <div class="icon">ðŸ‘¤</div>
             <h2>My Profile</h2>
             <p>View and manage your personal fitness profile.</p>
             <a href="#" class="btn">My Profile</a>
@@ -211,7 +212,7 @@
 
 
         <div class="card">
-            <div class="icon">🔥</div>
+            <div class="icon">ðŸ”¥</div>
             <h2>Fitness Goals</h2>
             <p>Stay motivated and work towards your fitness goals.</p>
             <a href="#" class="btn">My Goals</a>
@@ -221,7 +222,7 @@
 
 
     <footer>
-        © 2026 FitLife | Stay Healthy • Stay Strong
+        Â© 2026 FitLife | Stay Healthy â€¢ Stay Strong
     </footer>
 <script>
 window.addEventListener("pageshow", function(event) {
