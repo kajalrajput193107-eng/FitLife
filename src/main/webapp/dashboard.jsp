@@ -207,7 +207,7 @@
             <div class="icon">&#128100;</div>
             <h2>My Profile</h2>
             <p>View and manage your personal fitness profile.</p>
-            <a href="#" class="btn">My Profile</a>
+            <a href="${pageContext.request.contextPath}/ProfileServlet" class="btn">My Profile</a>
         </div>
 
 
