@@ -6,66 +6,55 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
-    private static final String HOST =
-            System.getenv("FITLIFE_DB_HOST");
-
-    private static final String PORT =
-            System.getenv("FITLIFE_DB_PORT");
-
-    private static final String DATABASE =
-            System.getenv("FITLIFE_DB_NAME");
-
-    private static final String USER =
-            System.getenv("FITLIFE_DB_USER");
-
-    private static final String PASSWORD =
-            System.getenv("FITLIFE_DB_PASSWORD");
-
     public static Connection getConnection() {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
+            String host = System.getenv("FITLIFE_DB_HOST");
+            String port = System.getenv("DB_PORT");
+            String database = System.getenv("FITLIFE_DB_NAME");
+            String user = System.getenv("FITLIFE_DB_USER");
+            String password = System.getenv("FITLIFE_DB_PASSWORD");
+
             StringBuilder missing = new StringBuilder();
 
-            if (HOST == null || HOST.isBlank())
+            if (host == null || host.isBlank())
                 missing.append("FITLIFE_DB_HOST ");
 
-            if (PORT == null || PORT.isBlank())
-                missing.append("FITLIFE_DB_PORT ");
+            if (port == null || port.isBlank())
+                missing.append("DB_PORT ");
 
-            if (DATABASE == null || DATABASE.isBlank())
+            if (database == null || database.isBlank())
                 missing.append("FITLIFE_DB_NAME ");
 
-            if (USER == null || USER.isBlank())
+            if (user == null || user.isBlank())
                 missing.append("FITLIFE_DB_USER ");
 
-            if (PASSWORD == null || PASSWORD.isBlank())
+            if (password == null || password.isBlank())
                 missing.append("FITLIFE_DB_PASSWORD ");
 
             if (missing.length() > 0) {
                 throw new RuntimeException(
-                    "Missing database variables: " + missing.toString()
+                    "Missing database variables: " + missing
                 );
             }
 
-            String url = "jdbc:mysql://" + HOST + ":" + PORT
-                    + "/" + DATABASE
+            String url = "jdbc:mysql://" + host + ":" + port
+                    + "/" + database
                     + "?sslMode=REQUIRED";
 
-            Connection con = DriverManager.getConnection(
-                    url, USER, PASSWORD
+            Connection connection = DriverManager.getConnection(
+                    url, user, password
             );
 
             System.out.println("Database Connected Successfully!");
 
-            return con;
+            return connection;
 
         } catch (Exception e) {
-
             System.err.println("Database Connection Failed!");
             e.printStackTrace();
-
             throw new RuntimeException(e);
         }
     }
