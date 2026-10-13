@@ -114,7 +114,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">FitLife</div>
+        <div class="logo">VegivaFit</div>
         <a class="back" href="dashboard.jsp">← Dashboard</a>
     </nav>
 
@@ -142,7 +142,7 @@
         </section>
     </main>
 
-    <footer>© 2026 FitLife | Stay Healthy • Stay Strong</footer>
+    <footer>© 2026 VegivaFit | Stay Healthy • Stay Strong</footer>
 
     <script>
         document.getElementById("bmiForm").addEventListener("submit", function(e) {

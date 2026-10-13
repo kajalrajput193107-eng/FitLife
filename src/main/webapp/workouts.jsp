@@ -208,7 +208,7 @@
 
 <div class="navbar">
 
-    <div class="logo">FitLife</div>
+    <div class="logo">VegivaFit</div>
 
     <div>
         <a href="index.jsp">Home</a>

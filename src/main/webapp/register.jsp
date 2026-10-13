@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>FitLife - Register</title>
+    <title>VegivaFit - Register</title>
 
     <style>
         body {

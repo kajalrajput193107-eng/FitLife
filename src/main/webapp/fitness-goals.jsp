@@ -70,7 +70,7 @@ button,.btn{display:inline-block;margin-top:22px;background:#6ee787;color:#10201
 </head>
 <body>
 <nav>
-    <div class="logo">FitLife</div>
+    <div class="logo">VegivaFit</div>
     <a href="<%= request.getContextPath() %>/dashboard.jsp">← Dashboard</a>
 </nav>
 

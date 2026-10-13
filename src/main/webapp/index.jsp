@@ -11,7 +11,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FitLife - Fitness Management</title>
+    <title>VegivaFit - Fitness Management</title>
 
     <style>
 
@@ -276,7 +276,7 @@
             </h1>
 
             <p>
-                Welcome to FitLife, your personal fitness management
+                Welcome to VegivaFit, your personal fitness management
                 platform. Track your workouts, calculate your BMI,
                 follow healthy diet plans and monitor your progress.
             </p>
@@ -377,7 +377,7 @@
     <footer>
 
         <p>
-            © 2026 <span>FitLife</span> | Fitness Management System
+            © 2026 <span>VegivaFit</span> | Fitness Management System
         </p>
 
     </footer>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>FitLife - Login</title>
+    <title>VegivaFit - Login</title>
 
     <style>
         body {
@@ -71,7 +71,7 @@
 
 <div class="container">
 
-    <h1>FitLife Login</h1>
+    <h1>VegivaFit Login</h1>
 
     <form action="LoginServlet" method="post">
 
