@@ -156,14 +156,14 @@
     <div class="dashboard">
 
         <div class="card">
-            <div class="icon">ðŸ‹ï¸</div>
+            <div class="icon">&#127947;</div>
             <h2>Workouts</h2>
             <p>Explore exercises and create your workout routine.</p>
             <a href="WorkoutServlet" class="btn">View Workouts</a>
         </div>
         <div class="card">
 
-    <div class="icon">ðŸŽ¯</div>
+    <div class="icon">&#127919;</div>
 
     <h2>Recommended Workouts</h2>
 
@@ -179,7 +179,7 @@
 
 
         <div class="card">
-            <div class="icon">ðŸ¥—</div>
+            <div class="icon">&#129367;</div>
             <h2>Diet Plans</h2>
             <p>Find healthy diet plans according to your fitness goal.</p>
             <a href="DietPlanServlet" class="btn">View Diet</a>
@@ -187,7 +187,7 @@
 
 
         <div class="card">
-            <div class="icon">âš–ï¸</div>
+            <div class="icon">&#9878;&#65039;</div>
             <h2>BMI Calculator</h2>
             <p>Calculate your BMI and understand your fitness level.</p>
             <a href="${pageContext.request.contextPath}/bmi-calculator.jsp"
@@ -196,7 +196,7 @@
 
 
         <div class="card">
-            <div class="icon">ðŸ“Š</div>
+            <div class="icon">&#128202;</div>
             <h2>Track Progress</h2>
             <p>Track your weight, height and fitness progress.</p>
             <a href="#" class="btn">View Progress</a>
@@ -204,7 +204,7 @@
 
 
         <div class="card">
-            <div class="icon">ðŸ‘¤</div>
+            <div class="icon">&#128100;</div>
             <h2>My Profile</h2>
             <p>View and manage your personal fitness profile.</p>
             <a href="#" class="btn">My Profile</a>
@@ -212,7 +212,7 @@
 
 
         <div class="card">
-            <div class="icon">ðŸ”¥</div>
+            <div class="icon">&#128293;</div>
             <h2>Fitness Goals</h2>
             <p>Stay motivated and work towards your fitness goals.</p>
             <a href="#" class="btn">My Goals</a>
