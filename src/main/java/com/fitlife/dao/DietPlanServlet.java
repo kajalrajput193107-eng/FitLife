@@ -1,3 +1,4 @@
+
 package com.fitlife.dao;
 
 import java.io.IOException;
@@ -21,7 +22,9 @@ public class DietPlanServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
             throws ServletException, IOException {
 
         // Check whether user is logged in
@@ -32,38 +35,62 @@ public class DietPlanServlet extends HttpServlet {
             return;
         }
 
+        // Get selected filters
+        String goal = request.getParameter("goal");
+        String dietType = request.getParameter("dietType");
+
         List<DietPlan> dietPlans = new ArrayList<>();
 
-        String sql = "SELECT * FROM diet_plans";
+        StringBuilder sql = new StringBuilder(
+            "SELECT * FROM diet_plans WHERE 1=1"
+        );
 
-        try {
+        List<String> params = new ArrayList<>();
 
-            Connection con = DBConnection.getConnection();
+        // Filter by fitness goal
+        if (goal != null && !goal.trim().isEmpty()) {
+            sql.append(" AND goal = ?");
+            params.add(goal.trim());
+        }
 
-            PreparedStatement ps = con.prepareStatement(sql);
+        // Filter by diet type
+        if (dietType != null && !dietType.trim().isEmpty()) {
+            sql.append(" AND diet_type = ?");
+            params.add(dietType.trim());
+        }
 
-            ResultSet rs = ps.executeQuery();
+        sql.append(" ORDER BY id");
 
-            while (rs.next()) {
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps =
+                 con.prepareStatement(sql.toString())) {
 
-                DietPlan dietPlan = new DietPlan(
-                    rs.getInt("id"),
-                    rs.getString("plan_name"),
-                    rs.getString("goal"),
-                    rs.getString("meal_type"),
-                    rs.getString("food_items"),
-                    rs.getInt("calories"),
-                    rs.getString("diet_type")
-                );
-
-                dietPlans.add(dietPlan);
+            // Set query parameters safely
+            for (int i = 0; i < params.size(); i++) {
+                ps.setString(i + 1, params.get(i));
             }
 
-            rs.close();
-            ps.close();
-            con.close();
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    DietPlan dietPlan = new DietPlan(
+                        rs.getInt("id"),
+                        rs.getString("plan_name"),
+                        rs.getString("goal"),
+                        rs.getString("meal_type"),
+                        rs.getString("food_items"),
+                        rs.getInt("calories"),
+                        rs.getString("diet_type")
+                    );
+
+                    dietPlans.add(dietPlan);
+                }
+            }
 
             request.setAttribute("dietPlans", dietPlans);
+            request.setAttribute("selectedGoal", goal);
+            request.setAttribute("selectedDietType", dietType);
 
             request.getRequestDispatcher("diet-plans.jsp")
                    .forward(request, response);
@@ -72,8 +99,9 @@ public class DietPlanServlet extends HttpServlet {
 
             e.printStackTrace();
 
-            response.getWriter().println(
-                "Error loading diet plans: " + e.getMessage()
+            response.sendError(
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                "Unable to load diet plans. Please try again."
             );
         }
     }
