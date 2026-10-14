@@ -222,10 +222,11 @@
 
                 <label for="goal">Fitness Goal</label>
                 <select id="goal" name="goal" required>
-                    <option value="Weight Loss" <%= "Weight Loss".equals(goal) ? "selected" : "" %>>Weight Loss</option>
-                    <option value="Weight Gain" <%= "Weight Gain".equals(goal) ? "selected" : "" %>>Weight Gain</option>
-                    <option value="Muscle Building" <%= "Muscle Building".equals(goal) ? "selected" : "" %>>Muscle Building</option>
-                    <option value="General Fitness" <%= "General Fitness".equals(goal) ? "selected" : "" %>>General Fitness</option>
+                    
+     <option value="Weight Loss" <%= "Weight Loss".equals(goal) ? "selected" : "" %>>Weight Loss</option>
+     <option value="Weight Gain" <%= "Weight Gain".equals(goal) ? "selected" : "" %>>Weight Gain</option>
+     <option value="General Fitness" <%= "General Fitness".equals(goal) ? "selected" : "" %>>General Fitness</option>
+                    
                     <% if (goal != null &&
                            !goal.equals("Weight Loss") &&
                            !goal.equals("Weight Gain") &&

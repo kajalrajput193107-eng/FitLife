@@ -1,3 +1,4 @@
+
 package com.fitlife.dao;
 
 import java.io.IOException;
@@ -21,64 +22,85 @@ public class RecommendedWorkoutServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("userGoal") == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
-        String userGoal = (String) session.getAttribute("userGoal");
+        String userGoal = String.valueOf(
+                session.getAttribute("userGoal")).trim();
+
+        // Map profile goals to workout database goals
+        String workoutGoal;
+
+        switch (userGoal) {
+            case "Weight Loss":
+                workoutGoal = "Weight Loss";
+                break;
+
+            case "Weight Gain":
+                workoutGoal = "Muscle Gain";
+                break;
+
+            case "Muscle Building":
+                workoutGoal = "Muscle Gain";
+                break;
+
+            case "Fitness":
+            case "General Fitness":
+                workoutGoal = "General Fitness";
+                break;
+
+            default:
+                response.sendError(
+                        HttpServletResponse.SC_BAD_REQUEST,
+                        "Invalid fitness goal.");
+                return;
+        }
 
         List<Workout> workouts = new ArrayList<>();
 
         String sql = "SELECT * FROM workouts WHERE goal = ?";
 
-        try {
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            Connection con = DBConnection.getConnection();
+            ps.setString(1, workoutGoal);
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            try (ResultSet rs = ps.executeQuery()) {
 
-            ps.setString(1, userGoal);
+                while (rs.next()) {
+                    Workout workout = new Workout(
+                        rs.getInt("id"),
+                        rs.getString("exercise_name"),
+                        rs.getString("category"),
+                        rs.getInt("sets"),
+                        rs.getInt("repetitions"),
+                        rs.getString("instructions"),
+                        rs.getString("difficulty"),
+                        rs.getString("goal")
+                    );
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Workout workout = new Workout(
-                    rs.getInt("id"),
-                    rs.getString("exercise_name"),
-                    rs.getString("category"),
-                    rs.getInt("sets"),
-                    rs.getInt("repetitions"),
-                    rs.getString("instructions"),
-                    rs.getString("difficulty"),
-                    rs.getString("goal")
-                );
-
-                workouts.add(workout);
+                    workouts.add(workout);
+                }
             }
-
-            rs.close();
-            ps.close();
-            con.close();
 
             request.setAttribute("recommendedWorkouts", workouts);
 
-            request.getRequestDispatcher("recommended-workouts.jsp")
+            request.getRequestDispatcher(
+                    "/recommended-workouts.jsp")
                    .forward(request, response);
 
         } catch (Exception e) {
-
-            e.printStackTrace();
-
-            response.getWriter().println(
-                "Error loading recommended workouts: " + e.getMessage()
-            );
+            throw new ServletException(
+                    "Unable to load recommended workouts.", e);
         }
     }
 }

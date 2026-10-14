@@ -127,10 +127,11 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
-        if (!goal.equals("Weight Loss")
-                && !goal.equals("Weight Gain")
-                && !goal.equals("Muscle Building")
-                && !goal.equals("General Fitness")) {
+
+      if (!goal.equals("Weight Loss")
+        && !goal.equals("Weight Gain")
+        && !goal.equals("General Fitness")) {
+
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                                "Invalid fitness goal.");
             return;

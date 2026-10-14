@@ -96,13 +96,14 @@
         </select>
 
         <label>Fitness Goal</label>
-        <select name="goal" required>
-            <option value="">Select Goal</option>
-            <option value="Weight Loss">Weight Loss</option>
-            <option value="Weight Gain">Weight Gain</option>
-            <option value="Muscle Building">Muscle Building</option>
-            <option value="Fitness">General Fitness</option>
-        </select>
+        
+<select name="goal" required>
+    <option value="">Select Fitness Goal</option>
+    <option value="Weight Loss">Weight Loss</option>
+    <option value="Weight Gain">Weight Gain</option>
+    <option value="General Fitness">General Fitness</option>
+</select>
+        
 
         <button type="submit">Register</button>
 
