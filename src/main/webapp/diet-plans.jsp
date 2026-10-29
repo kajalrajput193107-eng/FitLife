@@ -30,7 +30,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FitLife - Diet Plans</title>
+<title>VegivaFit | Diet Plans</title>
 
 <style>
 * {
@@ -299,7 +299,7 @@ select {
 <body>
 
 <div class="navbar">
-    <div class="logo">FitLife</div>
+    <div class="logo">VegivaFit</div>
 
     <div>
         <a href="dashboard.jsp">Dashboard</a>
@@ -311,7 +311,7 @@ select {
 <div class="container">
 
     <div class="heading">
-        <h1>🥗 FitLife Diet Plans</h1>
+        <h1>🥗 VegivaFit Diet Plans</h1>
         <p>Choose a diet according to your fitness goal and food preference.</p>
     </div>
 
